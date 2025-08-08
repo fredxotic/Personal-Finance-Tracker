@@ -8,10 +8,15 @@ from .models import Transaction, Category
 # Create your views here.
 @login_required
 def dashboard(request):
-    transactions = Transaction.objects.filter(user = request.user)
-    total_income = transactions.filter(type = 'income').aggregate(Sum('amount'))['amount__sum'] or 0
-    total_expenses = transactions.filter(type = 'expense').aggregate(Sum('amount'))['amount__sum'] or 0
+    transactions = Transaction.objects.filter(user=request.user)
+    categories = Category.objects.filter(user=request.user)
+
+    # Get total income, expenses, and balance
+    total_income = transactions.filter(type='income').aggregate(Sum('amount'))['amount__sum'] or 0
+    total_expenses = transactions.filter(type='expense').aggregate(Sum('amount'))['amount__sum'] or 0
     balance = total_income - total_expenses
+
+    # Get recent transactions
     recent_transactions = transactions.order_by('-date')[:5]
 
     context = {
@@ -20,7 +25,6 @@ def dashboard(request):
         'balance': balance,
         'recent_transactions': recent_transactions,
     }
-
     return render(request, 'dashboard.html', context)
 
 def register(request):
@@ -119,4 +123,3 @@ def transaction_delete(request, pk):
         return redirect('transaction_list')
     
     return render(request, 'transaction_confirm_delete.html', {'transaction': transaction})
-        
