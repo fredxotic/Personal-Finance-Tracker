@@ -1,42 +1,37 @@
 {% extends 'base.html' %}
-{% load humanize %}
-
-{% block title %}Dashboard{% endblock %}
 
 {% block content %}
-<h1>Dashboard</h1>
-<div class="summary-cards">
-    <div class="card">
-        <h2>Total Income</h2>
-        <p>Ksh {{total_income | intcomma }}</p>
+<div class="container">
+    <div class="summary-cards">
+        <div class="card income">
+            <h3>Total Income</h3>
+            <p class="amount">Ksh {{ total_income|floatformat:2 }}</p>
+        </div>
+        <div class="card expenses">
+            <h3>Total Expenses</h3>
+            <p class="amount">Ksh {{ total_expenses|floatformat:2 }}</p>
+        </div>
+        <div class="card balance">
+            <h3>Current Balance</h3>
+            <p class="amount">Ksh {{ balance|floatformat:2 }}</p>
+        </div>
     </div>
-    <div class="card">
-        <h2>Total Expenses</h2>
-        <p>Ksh {{total_expenses | intcomma}}</p>
-    </div>
-    <div class="card">
-        <h2>Balance</h2>
-        <p>Ksh {{balance | intcomma}}</p>
+
+    <div class="recent-transactions">
+        <h2>Recent Transactions</h2>
+        <ul>
+            {% for transaction in recent_transactions %}
+            <li>
+                <div class="transaction-details">
+                    <span class="date">{{ transaction.date|date:"M. d, Y" }}</span>
+                    <span class="description">{{ transaction.description }}</span>
+                    <span class="amount">Ksh {{ transaction.amount }}</span>
+                </div>
+            </li>
+            {% empty %}
+            <li>No recent transactions found.</li>
+            {% endfor %}
+        </ul>
     </div>
 </div>
-
-<h2>Recent Transactions</h2>
-{% if recent_transactions %}
-    <ul>
-        {% for transaction in recent_transactions %}
-        <li>
-            <span>{{transaction.date}} | <strong>{{transaction.description}}</strong>({{transaction.get_type_display}}) - {{transaction.amount}}</span>
-            <div>
-                <a href="{% url 'transaction_update' transaction.pk %}">Edit</a>
-                <a href="{% url 'transaction_delete' transaction.pk %}">Delete</a>
-            </div>
-        </li>
-        {% endfor %}
-    </ul>
-    <a href="{% url 'transaction_list' %}">View All Transactions</a>
-{% else %}
-    <p>You have no recent transactions/p>
-
-{% endif %}
 {% endblock %}
-

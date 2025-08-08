@@ -1,23 +1,25 @@
 {% extends 'base.html' %}
-{% block title %}Transactions{% endblock %}
 
 {% block content %}
-<h1>Transactions</h1>
-<a href="{% url 'transaction_create' %}">Add New Transaction</a>
-
-{% if transactions %}
+<div class="container transaction-list-container">
+    <h2>Transactions</h2>
+    <a href="{% url 'transaction_create' %}" class="add-link">Add New Transaction</a>
     <ul>
         {% for transaction in transactions %}
-        <li>
-            <span>{{transaction.date}} | <strong>{{transaction.description}}</strong>({{transaction.get_type_display}}) - {{transaction.amount}}</span>
-            <div>
-                <a href="{% url 'transaction_update' transaction.pk %}">Edit</a>
-                <a href="{% url 'transaction_delete' transaction.pk %}">Delete</a>
+        <li class="{% if transaction.type == 'Income' %}income-item{% else %}expense-item{% endif %}">
+            <div class="transaction-details">
+                <span class="date">{{ transaction.date|date:"M. d, Y" }}</span>
+                <span class="description">{{ transaction.description }}</span>
+                <span class="amount">Ksh {{ transaction.amount }}</span>
+            </div>
+            <div class="transaction-actions">
+                <a href="{% url 'transaction_update' pk=transaction.pk %}">Edit</a>
+                <a href="{% url 'transaction_delete' pk=transaction.pk %}">Delete</a>
             </div>
         </li>
+        {% empty %}
+        <li>No transactions found.</li>
         {% endfor %}
     </ul>
-{% else %}
-    <p>No transactions found.</p>
-{% endif %}
+</div>
 {% endblock %}
