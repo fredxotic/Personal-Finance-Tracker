@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h1>Dashboard</h1>
+<div class="summary-cards">
+    <div class="card">
+        <h2>Total Income</h2>
+        <p>Ksh {{total_income | intcomma }}</p>
+    </div>
+    <div class="card">
+        <h2>Total Expenses</h2>
+        <p>Ksh {{total_expenses | intcomma}}</p>
+    </div>
+    <div class="card">
+        <h2>Balance</h2>
+        <p>Ksh {{balance | intcomma}}</p>
+    </div>
+</div>
+
+<h2>Recent Transactions</h2>
+{% if recent_transactions %}
+    <ul>
+        {% for transaction in recent_transactions %}
+        <li>
+            <span>{{transaction.date}} | <strong>{{transaction.description}}</strong>({{transaction.get_type_display}}) - {{transaction.amount}}</span>
+            <div>
+                <a href="{% url 'transaction_update' transaction.pk %}">Edit</a>
+                <a href="{% url 'transaction_delete' transaction.pk %}">Delete</a>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'transaction_list' %}">View All Transactions</a>
+{% else %}
+    <p>You have no recent transactions/p>
+
+{% endif %}
+{% endblock %}
+

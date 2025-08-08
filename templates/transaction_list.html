@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Transactions{% endblock %}
+
+{% block content %}
+<h1>Transactions</h1>
+<a href="{% url 'transaction_create' %}">Add New Transaction</a>
+
+{% if transactions %}
+    <ul>
+        {% for transaction in transactions %}
+        <li>
+            <span>{{transaction.date}} | <strong>{{transaction.description}}</strong>({{transaction.get_type_display}}) - {{transaction.amount}}</span>
+            <div>
+                <a href="{% url 'transaction_update' transaction.pk %}">Edit</a>
+                <a href="{% url 'transaction_delete' transaction.pk %}">Delete</a>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No transactions found.</p>
+{% endif %}
+{% endblock %}
