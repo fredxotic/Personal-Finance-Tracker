@@ -62,13 +62,17 @@ TEMPLATES = [
 WSGI_APPLICATION = 'Personal_Finance_Tracker.wsgi.application'
 
 # Database configuration for Render
-# This code will check if the DATABASE_URL environment variable is set
+# This code will check if the DATABASE_URL environment variable is set.
+# If it is, it uses that for the database connection.
+# If not, it uses a local SQLite database as a fallback, which allows the build to succeed.
 if 'DATABASE_URL' in os.environ:
     DATABASES = {
-        'default': dj_database_url.config(conn_max_age=600)
+        'default': dj_database_url.config(
+            default=os.environ.get('DATABASE_URL'),
+            conn_max_age=600
+        )
     }
 else:
-    # If not set, it will use a local SQLite database as a fallback
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
