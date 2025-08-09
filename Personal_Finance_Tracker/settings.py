@@ -13,7 +13,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-@11#n9p(1(6#9n(1)1-j=n-k_2^k!f%1x^k#=b=s^k!f%1x^k!f%1x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 # Allowed hosts for production
 ALLOWED_HOSTS = ['*']
@@ -62,12 +62,17 @@ TEMPLATES = [
 WSGI_APPLICATION = 'Personal_Finance_Tracker.wsgi.application'
 
 # Database configuration for Render (uses the DATABASE_URL environment variable)
-DATABASES = {
-    'default': dj_database_url.config(
-        default='postgres://user:password@host:port/database',
-        conn_max_age=600
-    )
-}
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+else:
+    DATABASES = {
+        'default': dj_database_url.config(conn_max_age=600)
+    }
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
