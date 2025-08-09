@@ -9,11 +9,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-@11#n9p(1(6#9n(1)1-j=n-k_2^k!f%1x^k#=b=s^k!f%1x^k!f%1x' # Replace this with a real key for production
+# It is highly recommended to use an environment variable for this in production.
+SECRET_KEY = 'django-insecure-@11#n9p(1(6#9n(1)1-j=n-k_2^k!f%1x^k#=b=s^k!f%1x^k!f%1x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
+# Allowed hosts for production
 ALLOWED_HOSTS = ['*']
 
 # Application definition
@@ -24,12 +26,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'FinanceTrackerApp', # Your app name
+    'FinanceTrackerApp',  # Your app name
 ]
 
+# The middleware list, with Whitenoise added for serving static files
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', # Added Whitenoise
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Added Whitenoise here
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -58,7 +61,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Personal_Finance_Tracker.wsgi.application'
 
-# Database configuration for Render
+# Database configuration for Render (uses the DATABASE_URL environment variable)
 DATABASES = {
     'default': dj_database_url.config(
         default='postgres://user:password@host:port/database',
@@ -67,8 +70,6 @@ DATABASES = {
 }
 
 # Password validation
-# https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -85,25 +86,21 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # Internationalization
-# https://docs.djangoproject.com/en/5.0/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.0/howto/static-files/
-
-STATIC_URL = 'static/'
+# The URL to use when referring to static files
+STATIC_URL = '/static/'
+# The absolute path to the directory where `collectstatic` will put the files
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] # Added this line
+# The list of directories where Django will search for static files
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+# The storage engine for static files in production
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
+# Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
