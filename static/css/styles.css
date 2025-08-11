@@ -1,9 +1,19 @@
 /* General body and container styles */
+html, body{
+    height: 100%;
+    margin: 0;
+}
+
 body {
+    display: flex;
     font-family: Arial, sans-serif;
     background-color: #f4f7f9;
     margin: 0;
     padding: 0;
+}
+
+main{
+    flex-grow: 1;
 }
 
 .container {
@@ -359,8 +369,4 @@ footer{
     background-color: #343a40;
     border-top: 1px solid #eee;
     color: #fff;
-}
-
-main{
-    flex-grow: 1;
 }
