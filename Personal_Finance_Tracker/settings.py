@@ -29,7 +29,6 @@ INSTALLED_APPS = [
     'FinanceTrackerApp',  # Your app name
 ]
 
-# The middleware list, with Whitenoise added for serving static files
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',  # Added Whitenoise here
@@ -105,15 +104,14 @@ USE_I18N = True
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
-# The URL to use when referring to static files
 STATIC_URL = '/static/'
-# The absolute path to the directory where `collectstatic` will put the files
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-# The list of directories where Django will search for static files
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-# The storage engine for static files in production
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGOUT_REDIRECT_URL = 'login'

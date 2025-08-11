@@ -64,7 +64,6 @@ body {
     color: #fff;
 }
 
-/* --- Logout Button Styles (Final Correction) --- */
 .logout-btn {
     background-color: transparent;
     border: none; 
@@ -360,4 +359,8 @@ footer{
     background-color: #343a40;
     border-top: 1px solid #eee;
     color: #fff;
+}
+
+main{
+    flex-grow: 1;
 }

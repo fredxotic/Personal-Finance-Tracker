@@ -5,8 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Finance Tracker</title>
-    <!-- Favicon link added here -->
-    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.jpeg' %}">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
@@ -39,9 +37,12 @@
         {% endif %}
     </header>
 
-    <div class="main-content">
-        {% block content %}{% endblock %}
-    </div>
+    <main class="main">
+        <div class="main-content">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+    
 
     <footer class="footer">
         <p>&copy; 2025 Personal Finance Tracker. All rights reserved.</p>
