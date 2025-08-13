@@ -1,0 +1,36 @@
+{% extends 'tracker/base.html' %}
+{% block content %}
+<h2>Transactions</h2>
+<a class="button button-primary" href="{% url 'transaction_create' %}">Add Transaction</a>
+<table class="data-table">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Type</th>
+      <th>Category</th>
+      <th>Amount</th>
+      <th>Note</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for t in transactions %}
+    <tr>
+      <td>{{ t.date }}</td>
+      <td>{{ t.get_transaction_type_display }}</td>
+      <td>{{ t.category }}</td>
+      <td>{{ t.amount }}</td>
+      <td>{{ t.note }}</td>
+      <td>
+        <a href="{% url 'transaction_edit' t.pk %}">Edit</a> |
+        <a href="{% url 'transaction_delete' t.pk %}">Delete</a>
+      </td>
+    </tr>
+  {% empty %}
+    <tr>
+      <td colspan="6">No transactions yet.</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
